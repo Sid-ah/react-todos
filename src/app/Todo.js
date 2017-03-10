@@ -4,30 +4,24 @@ export class Todo extends Component {
   constructor() {
     super();
     this.state = {
-      todos: [],
-      newTodo: ''
+      todos: []
     }
-  }
-
-  handleChange(e) {
-    // destructring to avoid the following:
-    // const value = e.target.value
-    const {value} = e.target;
-    this.setState({newTodo: value});
   }
 
   handleClick(e) {
     e.preventDefault();
-    const todos = [...this.state.todos, this.state.newTodo];
-    this.setState({todos, newTodo: ''});
+    const todos = [...this.state.todos, this.input.value];
+    this.input.value = '';
+    this.setState({todos: todos});
   }
   render() {
     return (
       <div>
         <form>
-          <input
-            onChange={this.handleChange.bind(this)}
-            value={this.state.newTodo} type="text" placeholder="new todo" />
+          {/* that's the same as doing ref='content', but more effiecient because
+              you don't have to do this.refs.content.
+           */}
+          <input ref={node => this.input = node} type="text" placeholder="new todo" />
             <button onClick={this.handleClick.bind(this)}>Create</button>
           </form>
           <ul>
